@@ -1,0 +1,31 @@
+<form action="{{ action }}" role="form" method="POST" id="quiz" requare="formquiz_requare" before="formquiz_before" success="formquiz_success" data_type="json" class="row" >
+    
+    {% for o in fields %} 
+    
+        {% if o.field_type == 'hidden' %}
+            <input type="hidden" value="{{ o.value|e }}" placeholder="" name="{{ o.name }}" class="form-control">
+        {% endif %}
+        
+        {% if o.field_type == 'input' %}
+            <div class="form-group {{ o.block_classes|default('ml0 mr0 col-lg-6 col-xs-12 col-sm-12 col-md-12 col-xl-6') }} {{ o.add_class }}" {{ o.block_attr }} >
+                <p class="px15 ff-ms-300 mb5">{{ o.label }}</p>
+                <input type="{{ o.type|default('text') }}" class="form-control input-{{ o.input_size|default('sm') }} {{ o.input_classes }}" name="{{ o.name }}" placeholder="{{ o.placeholder }}" autocomplete="true" data-required="{{ o.required }}" data-validate="{{ o.validate }}" value="{{ o.value|e }}" {{o.input_attr}} />
+                {% if o.desc %}<small class="form-text {{ o.desc_classes|default('text-muted') }}">{{ o.desc }}</small>{% endif %}
+            </div>
+        {% endif %}
+        
+        {% if o.field_type == 'textarea' %}
+            <div class="form-group {{ o.block_classes|default('ml0 mr0 col-lg-6 col-xs-12 col-sm-12 col-md-12 col-xl-6') }} {{ o.add_class }}" {{ o.block_attr }} >
+                <p class="px15 ff-ms-300 mb5">{{ o.label }}</p>
+                <textarea class="form-control textarea-{{ o.input_size|default('sm') }} {{ o.input_classes }}" name="{{ o.name }}" placeholder="{{ o.placeholder }}" autocomplete="true"  {{o.input_attr}} >{{ o.value|e }}</textarea>
+                {% if o.desc %}<small class="form-text {{ o.desc_classes|default('text-muted') }}">{{ o.desc }}</small>{% endif %}
+            </div>
+        {% endif %}
+                
+    {% endfor %}
+    
+     <div role="group" class="form-group {{ o.classes|default('ml0 mr0 col-lg-6 col-xs-12 col-sm-12 col-md-12 col-xl-6') }} {{ o.add_classes }}">
+         <button type="submit" class="btn btn-yellow btn-md br3 px15 ff-ms-500"><i class="fa fa-save mr10 px14"></i> <span>{{ submit.text }}</span></button>
+     </div>
+     
+</form>

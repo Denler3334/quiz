@@ -1,0 +1,26 @@
+
+{% if type == 'radio' %}
+    <div class="row">
+        {% for key, item in items %} 
+            <div class="col-12">
+                <input type="radio" name="radio" value="{{ item.header }}" />
+                <img src="{{ item.image }}" />
+                <p>{{ item.header }}</p>
+                <small>{{ item.description }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% if type == 'checkbox' %}
+    <div class="row">
+        {% for key, item in items %} 
+            <div class="col-12">
+                <input type="checkbox" name="check_{{ key }}" value="{{ item.header }}" />
+                <img src="{{ item.image }}" />
+                <p>{{ item.header }}</p>
+                <small>{{ item.description }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}

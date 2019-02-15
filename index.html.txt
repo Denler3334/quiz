@@ -1,0 +1,186 @@
+$('a.quiz').Quiz({
+    
+    path : 'quiz',
+    
+    // Запуск квиза
+    before_start : function( data, callback )
+    {
+        
+        // Указать название квиза
+        $('.modal-quiz_box .modal-title').html( data.header );
+        
+        
+        // Показать окно с квизом
+        $('.modal-quiz_box').modal('show');
+        
+        // Продолжение..
+        callback( true );
+        
+    },
+    
+    // Работа со слайдами
+    view_slide : function( slide )
+    {
+        
+        // Подготовка параметров
+        var quiz_name = window.QuizActive;
+        var index = window.QuizEvent[ quiz_name ].active;
+        var requare = slide.params.required;
+        var custom = slide.params.custom;
+        var type = slide.params.type;
+    
+        // По умолчанию - установка пользовательского значения - отключено 
+        $('.modal-quiz_box .answer-custom').addClass('d-none');
+        $('.modal-quiz_box .answer-custom *[name=input-custom]').off('keyup');
+        
+        // Если требуется включить пользовательское значение...
+        if( custom === true )
+        {
+            $('.modal-quiz_box .answer-custom').removeClass('d-none');
+            $('.modal-quiz_box .answer-custom *[name=input-custom]').on('keyup', function(){
+                var value = $(this).val();
+                window.QuizEvent[quiz_name].results[index] = {
+                    status : ( requare && value.toString().length > 0 ) ? true : false,
+                    question : slide.question,
+                    answer : value.toString()
+                };
+            });
+        }
+        
+        // Указать сам вопрос слайда
+        $('.modal-quiz_box .question-title').html( slide.question );
+        
+        // Установка контента квиза
+        TPL.GET_TPL('quiz/quiz.body', {
+            items: slide.answer,
+            type : type
+        }, function( body_content ){
+            $('.modal-quiz_box .question-body').html( body_content );
+        }); 
+        
+        // Перезагрузка радио-кнопок
+        $('.modal-quiz_box .question-body').off('change', 'input[type=radio]' );
+        $('.modal-quiz_box .question-body').on('change', 'input[type=radio]', function(){
+            var value = $(this).val().toString();
+            window.QuizEvent[quiz_name].results[index] = {
+                status : ( requare !== false ) ? ( value.length > 0 ) ? true : false : true,
+                question : slide.question,
+                answer : value
+            };
+        });
+        
+        // Перезагрузка чекетов                    
+        $('.modal-quiz_box .question-body').off('click', 'input[type="checkbox"]');
+        $('.modal-quiz_box .question-body').on('change', 'input[type=checkbox]', function(){
+            
+            // Сбор отметок
+            var arr = [];
+            $('.modal-quiz_box .question-body input[type=checkbox]:checked').map(function( i, e ){
+                arr.push( $(e).val() ); 
+            });
+            
+            // Установка отметок
+            var value = arr.join(',');
+            window.QuizEvent[quiz_name].results[index] = {
+                status : ( requare !== false ) ? ( value.length > 0 ) ? true : false : true,
+                question : slide.question,
+                answer : value
+            };
+            
+        });
+        
+        
+        // Показать кнопку "Вперёд"
+        $('[data-quiz_next]').removeClass('d-none');
+        
+    },
+    
+    // Показать форму захватав конце...
+    view_forma : function( form_data )
+    {
+    
+        // Подготовка параметров
+        var quiz_name = window.QuizActive;
+        
+        // Скрыть кнопку "Вперёд"
+        $('[data-quiz_next]').addClass('d-none');
+        
+        // Указать заголовок формы
+        $('.modal-quiz_box .question-title').html( form_data.header );
+        
+        // Установка контента квиза
+        TPL.GET_TPL('quiz/quiz.forma', {
+            fields : form_data.fields,
+            action : form_data.action,
+            submit : form_data.submit
+        }, function( body_content ){
+            $('.modal-quiz_box .question-body').html( body_content );
+        });
+        
+        // Добавление вопросов и ответов к отправке
+        window.formquiz_requare = function( data, callback )
+        {
+            
+            data.push({
+                name : 'quizdata',
+                value : JSON.stringify( window.QuizEvent[quiz_name].results )
+            });
+            
+            callback( true, data);
+            
+        };
+        
+        // Проверка и валидация полей
+        window.formquiz_before = function( data )
+        {
+        
+            // По умолчанию - всё ок
+            var okey = true;
+            
+            // Сканирование полей 
+            for (var key in form_data.fields) 
+            {
+                var o = form_data.fields[key];
+                helpers.procedure_array( o.name, data, 'name', function( item ){
+                    
+                    var i = true;
+                    
+                    if( o.required !== false && item.value.length < 1 )
+                    {
+                        var i = false;
+                    }
+                    
+                    if( o.validate !== false )
+                    {
+                        var i = helpers.validate( o.validate, item.value );
+                    }
+                    
+                    if( !i && o.field_type !== 'hidden' )
+                    {
+                        helpers.formDanger( 'form#quiz ' + o.field_type + '[name="' + o.name + '"]', 5000 );
+                        console.error( 'form#quiz ' + o.field_type + '[name="' + o.name + '"]' );
+                        okey = false;
+                    }
+                    
+                });
+            } 
+            
+            // Продолжение
+            return okey;
+            
+        };
+        
+        // Что сделать в случае успешной отправки
+        window.formquiz_success = function( json )
+        {
+            helpers.alert( ( json.err < 1 ) ? 'success': 'error', json.mess );
+            if( json.err < 1 )
+            {
+                // Crhsnm окно с квизом
+                $('.modal-quiz_box').modal('hide');
+            }
+        };
+        
+    }
+                    
+});

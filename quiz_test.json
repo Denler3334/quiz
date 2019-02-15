@@ -1,0 +1,66 @@
+{
+    "header" : "2Узнайте эффективность сайта-квиза для Вашего бизнеса",
+    "items" : [
+        {
+            "question" : "2Какая у Вас сфера деятельности?",
+            "answer" : [
+                {
+                    "header" : "Услуги",
+                    "description" : "Сфера услуг",
+                    "image" : "http://01.jpg"
+                },
+                {
+                    "header" : "Товары",
+                    "description" : "...",
+                    "image" : "..."
+                },
+                {
+                    "header" : "Производство",
+                    "description" : "...",
+                    "image" : "..."            
+                }
+            ],
+            "params" : {
+                "type" : "radio",
+                "custom" : true,
+                "required" : true
+            }
+        },
+        {
+            "question" : "2Какое количество заказов Вы можете обработать в день?",
+            "answer" : [
+                {
+                    "header" : "До 10",
+                    "description" : "До 10 заказов в день",
+                    "image" : "http://01.jpg"
+                }
+            ],
+            "params" : {
+                "type" : "radio",
+                "custom" : false,
+                "required" : false
+            }
+        }
+    ],
+    "forma" : {
+        "header" : "2Заголовок формы",
+        "fields" : [
+            {
+                "name" : "phone",
+                "placeholder" : "Введите свой номер телефона",
+                "label" : "Введите свой телефон:",
+                "value" : "",
+                "type" : "text",
+                "desc" : "*Обязательное поле",
+                "input_classes" : "", 
+                "block_classes" : "", 
+                "required" : true, 
+                "validate" : "phone"
+            }
+        ],
+        "submit" : {
+            "classes" : "",
+            "text" : "Узнать ..."
+        }
+    }
+}

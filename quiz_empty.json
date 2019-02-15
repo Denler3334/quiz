@@ -1,0 +1,131 @@
+{
+    "header" : "Узнайте эффективность сайта-квиза для Вашего бизнеса",
+    "items" : [
+        {
+            "question" : "Какая у Вас сфера деятельности?",
+            "answer" : [
+                {
+                    "header" : "Услуги",
+                    "description" : "Сфера услуг",
+                    "image" : "http://01.jpg"
+                },
+                {
+                    "header" : "Товары",
+                    "description" : "...",
+                    "image" : "..."
+                },
+                {
+                    "header" : "Производство",
+                    "description" : "...",
+                    "image" : "..."            
+                }
+            ],
+            "params" : {
+                "type" : "radio",
+                "custom" : true,
+                "required" : true
+            }
+        },
+        {
+            "question" : "Какое количество заказов Вы можете обработать в день?",
+            "answer" : [
+                {
+                    "header" : "До 10",
+                    "description" : "До 10 заказов в день",
+                    "image" : "http://01.jpg"
+                },
+                {
+                    "header" : "До 20",
+                    "description" : "До 20 заказов в день",
+                    "image" : "http://02.jpg"
+                }
+            ],
+            "params" : {
+                "type" : "checkbox",
+                "custom" : false,
+                "required" : false
+            }
+        },
+        {
+            "question" : "Сколько Вам полных лет",
+            "answer" : [],
+            "params" : {
+                "type" : "customer",
+                "custom" : true,
+                "required" : true
+            }
+        },
+        {
+            "question" : "22Какое количество заказов Вы можете обработать в день?",
+            "answer" : [
+                {
+                    "header" : "До 102",
+                    "description" : "До 10 заказов в день",
+                    "image" : "http://01.jpg"
+                },
+                {
+                    "header" : "До 202",
+                    "description" : "До 20 заказов в день",
+                    "image" : "http://02.jpg"
+                }
+            ],
+            "params" : {
+                "type" : "checkbox",
+                "custom" : false,
+                "required" : false
+            }
+        }
+    ],
+    "forma" : {
+        "header" : "Заголовок формы",
+        "action" : "quiz/action.php",
+        "fields" : [
+            {
+                "field_type" : "input",
+                "name" : "phone",
+                "placeholder" : "Введите свой номер телефона",
+                "label" : "Введите свой телефон:",
+                "value" : "",
+                "type" : "text",
+                "desc" : "*Обязательное поле",
+                "desc_classes" : "",
+                "input_classes" : "", 
+                "input_size" : "", 
+                "input_attr" : "", 
+                "block_classes" : "",  
+                "add_class" : "", 
+                "block_attr" : "", 
+                "required" : true, 
+                "validate" : "phone"
+            },
+            {
+                "field_type" : "input",
+                "name" : "first_name",
+                "placeholder" : "Введите своё имя",
+                "label" : "Введите своё имя:",
+                "value" : "",
+                "type" : "text",
+                "desc" : "*Обязательное поле",
+                "desc_classes" : "",
+                "input_classes" : "", 
+                "input_size" : "", 
+                "input_attr" : "", 
+                "block_classes" : "",  
+                "add_class" : "", 
+                "block_attr" : "", 
+                "required" : true, 
+                "validate" : false
+            },
+            {
+                "field_type" : "hidden",
+                "name" : "position",
+                "value" : "home"
+            }
+        ],
+        "submit" : {
+            "classes" : "",
+            "add_classes" : "",
+            "text" : "Узнать ..."
+        }
+    }
+}
